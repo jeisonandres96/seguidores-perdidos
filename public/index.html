@@ -132,69 +132,713 @@
             background: #c8d0d4;
             color: #2d3436;
             border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         #comprobantes-section .keypad button:hover {
-            background: #a0a8b0;
-            transform: translateY(-2px);
+            background: #b2bec3;
+            transform: scale(1.1);
         }
 
-        textarea, input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 15px;
-            margin-bottom: 10px;
-            background: white;
+        #comprobantes-section .keypad button:active {
+            transform: scale(0.9);
         }
 
-        button {
+        #comprobantes-section .input-textarea {
+            flex: 1;
+        }
+
+        #comprobantes-section .button-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #comprobantes-section button {
+            flex: 1;
+            padding: 14px;
             background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 12px 20px;
             border-radius: 12px;
-            cursor: pointer;
+            font-size: 14px;
             font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             box-shadow: var(--shadow);
+            min-width: 0;
+            min-height: 48px;
         }
 
-        button:hover {
+        #comprobantes-section button:hover {
             transform: translateY(-2px);
             box-shadow: var(--highlight-shadow);
         }
 
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 15px;
-            font-size: 18px;
+        #comprobantes-section #total {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border-radius: 16px;
+            padding: 18px;
             text-align: center;
-            color: #1e3a8a;
+            margin-top: 15px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            width: 100%;
         }
 
-        .positive { color: #11998e; }
-        .negative { color: #e74c3c; }
-
-        footer {
-            text-align: center;
+        #comprobantes-section #comprobantes {
+            font-size: 1.4em;
+            color: #15803d;
+            background: #ecfdf5;
             padding: 15px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8em;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            width: 100%;
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 10px; }
-            .logo { font-size: 1.6em; }
-            .tab-button { font-size: 13px; padding: 8px 15px; min-width: 100px; }
+        #comprobantes-section #error {
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 12px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #comprobantes-section textarea {
+            width: 100%;
+            max-width: 400px;
+            height: 180px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 16px;
+            resize: none;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #comprobantes-section textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        #comprobantes-section h3 {
+            color: #1f2937;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .modal-content h4 {
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .modal-content p {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #15803d;
+        }
+
+        .modal-content button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--highlight-shadow);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        #panel-section .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #panel-section .input-group label {
+            display: block;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        #panel-section textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            resize: none;
+        }
+
+        #panel-section textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        #panel-section .button-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #panel-section button {
+            flex: 1;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        #panel-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--highlight-shadow);
+        }
+
+        #panel-section #extract-result {
+            margin-top: 15px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            width: 100%;
+        }
+
+        #paypal-section, #wompi-section {
+            --input-icon-color: #667eea;
+        }
+
+        #paypal-section .input-group, #wompi-section .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #paypal-section .input-group label, #wompi-section .input-group label {
+            display: block;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        #paypal-section .input-wrapper, #wompi-section .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #paypal-section input[type="number"], #wompi-section input[type="number"] {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #paypal-section input[type="number"]:focus, #wompi-section input[type="number"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        #paypal-section .input-icon, #wompi-section .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--input-icon-color);
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        #paypal-section .btn-calcular, #wompi-section .btn-calcular {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        #paypal-section .btn-calcular:hover, #wompi-section .btn-calcular:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--highlight-shadow);
+        }
+
+        #paypal-section #resultado-paypal, #wompi-section #resultado-wompi {
+            display: none;
+        }
+
+        #paypal-section .amount-card, #wompi-section .amount-card {
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        #paypal-section .amount-label, #wompi-section .amount-label {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        #paypal-section .amount-value, #wompi-section .amount-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        #paypal-section .message-card, #wompi-section .message-card {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #1e3a8a;
+            padding: 15px;
+            border-radius: 16px;
+            margin: 15px 0;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 2px solid #2196f3;
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        #paypal-section .message-card::before, #wompi-section .message-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2196f3, transparent);
+        }
+
+        #paypal-section .btn-copiar, #wompi-section .btn-copiar {
+            width: 100%;
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #paypal-section .btn-copiar:hover, #wompi-section .btn-copiar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        #services-section {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #services-section .content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #services-section .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        #services-section .input-textarea {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        #services-section .action-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #services-section .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 48px);
+            gap: 4px;
+            margin-right: 8px;
+        }
+
+        #services-section .keypad button {
+            width: 48px;
+            height: 48px;
+            background: #c8d0d4;
+            color: #2d3436;
+            border-radius: 12px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+
+        #services-section .keypad button:hover {
+            background: #b2bec3;
+            transform: scale(1.1);
+        }
+
+        #services-section .keypad button:active {
+            transform: scale(0.9);
+        }
+
+        #services-section .followers-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #services-section textarea {
+            width: 100%;
+            max-width: 400px;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #services-section textarea:focus {
+            border-color: #0984e3;
+            box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+            outline: none;
+        }
+
+        #services-section input[type="number"] {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #services-section input[type="number"]:focus {
+            border-color: #0984e3;
+            box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+            outline: none;
+        }
+
+        #services-section button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        #services-section .btn-primary {
+            background-color: #0984e3;
+            color: white;
+            width: 130px;
+        }
+
+        #services-section .btn-primary:hover {
+            background-color: #0871c2;
+            transform: scale(1.05);
+        }
+
+        #services-section .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        #services-section .btn-success {
+            background-color: #00b894;
+            color: white;
+            width: 130px;
+        }
+
+        #services-section .btn-success:hover {
+            background-color: #009875;
+            transform: scale(1.05);
+        }
+
+        #services-section .btn-success:active {
+            transform: scale(0.95);
+        }
+
+        #services-section .btn-danger {
+            background-color: #d63031;
+            color: white;
+            width: 130px;
+        }
+
+        #services-section .btn-danger:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        #services-section .btn-danger:active {
+            transform: scale(0.95);
+        }
+
+        #services-section .btn-secondary {
+            background-color: #b2bec3;
+            color: #2d3436;
+            width: 130px;
+        }
+
+        #services-section .btn-secondary:hover {
+            background-color: #95a5a6;
+            transform: scale(1.05);
+        }
+
+        #services-section .btn-secondary:active {
+            transform: scale(0.95);
+        }
+
+        #services-section .btn-go {
+            background-color: #6c5ce7;
+            color: white;
+            width: 130px;
+        }
+
+        #services-section .btn-go:hover {
+            background-color: #5a4cd0;
+            transform: scale(1.05);
+        }
+
+        #services-section .btn-go:active {
+            transform: scale(0.95);
+        }
+
+        #services-section .services-result {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            min-height: 80px;
+        }
+
+        #services-section .services-result.loading {
+            animation: pulse 1.5s infinite;
+            text-align: center;
+        }
+
+        #services-section .services-result ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #services-section .services-result li {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            color: #2d3436;
+            text-align: center;
+        }
+
+        #services-section .difference {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        #services-section .difference.positive {
+            color: #00b894;
+            background: rgba(0, 184, 148, 0.15);
+        }
+
+        #services-section .difference.negative {
+            color: #d63031;
+            background: rgba(214, 48, 49, 0.15);
+        }
+
+        @media (max-width: 480px) {
+            .tabs {
+                flex-wrap: nowrap;
+            }
+
+            .tab-button {
+                min-width: auto;
+                padding: 10px 15px;
+            }
+
+            #comprobantes-section .top-controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #comprobantes-section .keypad {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 180px;
+                margin: 0 auto;
+            }
+
+            #comprobantes-section textarea {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #services-section .top-controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #services-section .action-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            #services-section .keypad {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 180px;
+                margin: 0 auto;
+            }
+
+            #services-section .input-textarea {
+                width: 100%;
+            }
+
+            #services-section textarea, #services-section .btn-primary, #services-section input[type="number"], #services-section .btn-success, #services-section .btn-secondary, #services-section .btn-danger, #services-section .btn-go {
+                width: 100%;
+            }
+
+            #services-section .followers-group {
+                flex-direction: column;
+            }
+
+            #services-section button {
+                width: 100%;
+            }
+
+            #services-section .services-result ul {
+                max-width: 100%;
+            }
+
+            .container {
+                margin: 8px;
+            }
         }
     </style>
 </head>
@@ -206,151 +850,956 @@
         </header>
 
         <div class="tabs">
-            <button class="tab-button active" data-tab="servicios">Servicios</button>
+            <button class="tab-button active" data-tab="services">Servicios</button>
             <button class="tab-button" data-tab="comprobantes">Comprobantes</button>
+            <button class="tab-button" data-tab="panel">Panel</button>
+            <button class="tab-button" data-tab="paypal">PayPal</button>
+            <button class="tab-button" data-tab="wompi">Wompi</button>
         </div>
 
-        <!-- PESTAÑA SERVICIOS -->
-        <div id="servicios" class="tab-content active">
-            <h2 style="text-align:center;color:#1e3a8a;margin-bottom:20px">Consulta de Pedidos</h2>
-            <textarea id="input" placeholder="Pega aquí el texto del pedido..." rows="8"></textarea>
-            <input type="number" id="current_followers" placeholder="Seguidores actuales (opcional)" />
-            <div style="text-align:center;margin:15px 0">
-                <button onclick="processFollowers()">Consultar</button>
-                <button onclick="clearInput()" style="background:#95a5a6;margin-left:10px">Limpiar</button>
+        <div id="services-section" class="tab-content active">
+            <div class="content">
+                <div class="top-controls">
+                    <div class="keypad">
+                        <button onclick="addDigitServices('7')">7</button>
+                        <button onclick="addDigitServices('8')">8</button>
+                        <button onclick="addDigitServices('9')">9</button>
+                        <button onclick="addDigitServices('4')">4</button>
+                        <button onclick="addDigitServices('5')">5</button>
+                        <button onclick="addDigitServices('6')">6</button>
+                        <button onclick="addDigitServices('1')">1</button>
+                        <button onclick="addDigitServices('2')">2</button>
+                        <button onclick="addDigitServices('3')">3</button>
+                        <button onclick="addDigitServices('0')">0</button>
+                        <button onclick="backspaceServices()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"/>
+                                <path d="m9 11 3 3m0-6-3 3"/>
+                            </svg>
+                        </button>
+                        <button onclick="clearInputField()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-1 5v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-textarea">
+                        <textarea id="input" placeholder="Pega aquí el ID, enlace o texto completo de Instagram/TikTok"></textarea>
+                        <div class="action-buttons">
+                            <button class="btn-primary" onclick="pasteText()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                                </svg>
+                                Pegar
+                            </button>
+                            <button class="btn-go" onclick="goText()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                                Ir
+                            </button>
+                            <button class="btn-danger" onclick="clearInput()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-1 5v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6"/>
+                                </svg>
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="followers-group">
+                    <input type="number" id="current_followers" placeholder="Ej: 13896" min="0">
+                    <button class="btn-success" onclick="processFollowers()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20V10m0 0l-4 4m4-4l4 4"/>
+                        </svg>
+                        Procesar
+                    </button>
+                    <button class="btn-secondary" onclick="copyResult()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                        </svg>
+                        Copiar
+                    </button>
+                </div>
+                <div class="services-result" id="services-result"></div>
             </div>
-            <div id="services-result" class="result"></div>
         </div>
 
-        <!-- PESTAÑA COMPROBANTES -->
-        <div id="comprobantes" class="tab-content">
-            <h2 style="text-align:center;color:#1e3a8a;margin-bottom:20px">Sumador de Comprobantes</h2>
-            <textarea id="comprobantesText" placeholder="Pega aquí todos los comprobantes del día..." rows="12"></textarea>
-            <div style="text-align:center;margin:20px 0">
-                <button onclick="procesarComprobantes()" style="font-size:18px;padding:15px 40px">Procesar</button>
+        <div id="comprobantes-section" class="tab-content">
+            <h3>Sumador de Comprobantes</h3>
+            <div class="top-controls">
+                <div class="keypad">
+                    <button onclick="addDigit('7')">7</button>
+                    <button onclick="addDigit('8')">8</button>
+                    <button onclick="addDigit('9')">9</button>
+                    <button onclick="addDigit('4')">4</button>
+                    <button onclick="addDigit('5')">5</button>
+                    <button onclick="addDigit('6')">6</button>
+                    <button onclick="addDigit('1')">1</button>
+                    <button onclick="addDigit('2')">2</button>
+                    <button onclick="addDigit('3')">3</button>
+                    <button onclick="addDigit('0')">0</button>
+                    <button onclick="addDigit('+')">+</button>
+                    <button onclick="backspace()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"/>
+                            <path d="m9 11 3 3m0-6-3 3"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-textarea">
+                    <textarea id="textInput" placeholder="Escribe números (ej: 35900, 5 mil, 35+35, 35k, 1 millón)..."></textarea>
+                </div>
             </div>
-            <div id="resultadoComprobantes" class="result"></div>
+            <div class="button-bar">
+                <button id="processButton"><i class="fas fa-calculator"></i> Procesar</button>
+                <button id="resetButton"><i class="fas fa-undo"></i> Reiniciar</button>
+            </div>
+            <div id="error"></div>
+            <div id="total">Total: $0 COP</div>
+            <div id="comprobantes">Comprobantes: 0</div>
+            <button id="installBtn" style="display: none; margin: 10px auto; padding: 12px; background: #10b981; color: white; border: none; border-radius: 12px;">
+                Instalar App
+            </button>
+        </div>
+
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h4>Resultados</h4>
+                <p id="modalDate"></p>
+                <p id="modalTotal"></p>
+                <p id="modalCount"></p>
+                <button id="modalCopyBtn">Copiar</button>
+            </div>
+        </div>
+
+        <div id="panel-section" class="tab-content">
+            <div class="input-group">
+                <label for="inputText">Texto de entrada:</label>
+                <textarea id="inputText" placeholder="Pega el texto aquí..."></textarea>
+            </div>
+            <div class="button-bar">
+                <button id="extractBtn" onclick="extractValues()"><i class="fas fa-search-dollar"></i> Extraer</button>
+                <button id="clearBtn" onclick="clearInputExtract()"><i class="fas fa-trash"></i> Limpiar</button>
+            </div>
+            <div id="extract-result">
+                <p><strong>Valores extraídos:</strong> <span id="output"></span></p>
+                <p><strong>Conteo:</strong> <span id="count">0</span></p>
+                <p><strong>Suma:</strong> <span id="sum">0</span></p>
+            </div>
+        </div>
+
+        <div id="paypal-section" class="tab-content">
+            <div class="input-group">
+                <label for="cop-amount">Valor a recibir en COP</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-dollar-sign input-icon"></i>
+                    <input type="number" id="cop-amount" placeholder="Ej: 1000000">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="exchange-rate">Tasa de cambio COP a USD</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-exchange-alt input-icon"></i>
+                    <input type="number" id="exchange-rate" placeholder="Ej: 4000">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="fee-percent">Porcentaje de comisión (%)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-percentage input-icon"></i>
+                    <input type="number" id="fee-percent" value="5.4" placeholder="Ej: 5.4">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="fee-fixed">Comisión fija (USD)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-dollar-sign input-icon"></i>
+                    <input type="number" id="fee-fixed" value="0.30" placeholder="Ej: 0.30">
+                </div>
+            </div>
+            <button class="btn-calcular" id="calculate-btn">Calcular</button>
+            <div id="resultado-paypal">
+                <div class="amount-card">
+                    <div class="amount-label">Valor a enviar en USD</div>
+                    <div class="amount-value" id="monto-paypal">$0.00</div>
+                </div>
+                <div class="message-card">
+                    💬 Listo! 👋
+                    Este es el valor total que debes enviar (ya incluye la comisión de PayPal):
+                    💰 USD $<span id="monto-valor-paypal">0.00</span>
+
+                    Por favor realiza el envío a este correo de PayPal 👇
+                    📧 jeisonandrez96@gmail.com
+
+                    Una vez completes el pago, envíanos el comprobante para confirmar ✅
+                    ¡Gracias por tu confianza! 💙
+                </div>
+                <button id="copiar-paypal" class="btn-copiar"><i class="fas fa-copy"></i> Copiar Mensaje</button>
+            </div>
+            <div id="advertencia-paypal" style="display: none; color: red; text-align: center; margin-top: 10px;">Por favor, ingresa valores válidos.</div>
+        </div>
+
+        <div id="wompi-section" class="tab-content">
+            <div class="input-group">
+                <label for="valor-recibir">Valor a recibir en COP</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-dollar-sign input-icon"></i>
+                    <input type="number" id="valor-recibir" placeholder="Ej: 1000000">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="comision">Comisión Wompi (%)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-percentage input-icon"></i>
+                    <input type="number" id="comision" value="2.9" placeholder="Ej: 2.9">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="iva">IVA (%)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-percentage input-icon"></i>
+                    <input type="number" id="iva" value="19" placeholder="Ej: 19">
+                </div>
+            </div>
+            <button class="btn-calcular" onclick="calcularWompi()">Calcular</button>
+            <div id="resultado-wompi">
+                <div class="amount-card">
+                    <div class="amount-label">Valor a enviar en COP</div>
+                    <div class="amount-value" id="monto-wompi">$0</div>
+                </div>
+                <div class="message-card">
+                    💬 Listo! 👋
+                    Este es el valor total que debes dijitar y enviar. (ya incluye la comisión de Wompi):
+                    💰 $<span id="monto-valor-wompi">0</span> COP
+
+                    Puedes hacer el pago fácilmente aquí 👇
+                    🔗 https://checkout.wompi.co/l/VPOS_OMH30w
+
+                    Una vez completes el pago, envíanos el comprobante para confirmar ✅
+                    Gracias por tu confianza 💙
+                </div>
+                <button id="copiar-wompi" class="btn-copiar"><i class="fas fa-copy"></i> Copiar Mensaje WhatsApp</button>
+            </div>
+            <div id="advertencia-wompi" style="display: none; color: red; text-align: center; margin-top: 10px;">Por favor, ingresa valores válidos.</div>
         </div>
     </div>
 
-    <footer>
-        © 2025 Influmarket Col • Panel Integrado
-    </footer>
-
     <script>
-        // === PESTAÑAS ===
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
+        // Manejo de pestañas
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(tab.dataset.tab + '-section').classList.add('active');
             });
         });
 
-        // === SERVICIOS ===
-        async function processFollowers() {
-            const input = document.getElementById('input').value.trim();
-            const current_followers = document.getElementById('current_followers').value;
-            const resultDiv = document.getElementById('services-result');
+        // Script de Comprobantes
+        let extractedNumbers = [];
+        let total = 0;
+        const textInput = document.getElementById('textInput');
+        const processButton = document.getElementById('processButton');
+        const resetButton = document.getElementById('resetButton');
+        const totalDiv = document.getElementById('total');
+        const comprobantesDiv = document.getElementById('comprobantes');
+        const errorDiv = document.getElementById('error');
+        const modal = document.getElementById('resultModal');
+        const modalDate = document.getElementById('modalDate');
+        const modalTotal = document.getElementById('modalTotal');
+        const modalCount = document.getElementById('modalCount');
+        const modalCopyBtn = document.getElementById('modalCopyBtn');
+        const closeModal = document.querySelector('.close');
 
-            if (!input) {
-                resultDiv.innerHTML = '<p style="color:#e74c3c">Pega el texto del pedido</p>';
+        // Cargar historial al iniciar
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('comprobantes_historial');
+            if (saved) {
+                const history = JSON.parse(saved);
+                extractedNumbers = history.comprobantes || [];
+                total = history.total || 0;
+                updateUI(false);
+            }
+        });
+
+        // Función de debounce para optimizar eventos de entrada
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function convertSpanishNumberWords(text) {
+            const numberWords = {
+                'cero': 0, 'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': 4, 'cinco': 5,
+                'seis': 6, 'siete': 7, 'ocho': 8, 'nueve': 9, 'diez': 10,
+                'once': 11, 'doce': 12, 'trece': 13, 'catorce': 14, 'quince': 15,
+                'dieciséis': 16, 'diecisiete': 17, 'dieciocho': 18, 'diecinueve': 19,
+                'veinte': 20, 'veintiuno': 21, 'veintidós': 22, 'veintitrés': 23,
+                'veinticuatro': 24, 'veinticinco': 25, 'treinta': 30, 'cuarenta': 40,
+                'cincuenta': 50, 'sesenta': 60, 'setenta': 70, 'ochenta': 80, 'noventa': 90,
+                'cien': 100, 'mil': 1000, 'millón': 1000000, 'millones': 1000000,
+                'punto': '.', 'coma': '.', 'y': '+', 'mas': '+', 'más': '+'
+            };
+
+            const words = text.split(' ');
+            const result = [];
+            let currentNumber = 0;
+            let multiplier = 1;
+            let isDecimal = false;
+            let decimalPart = '';
+
+            for (let i = 0, len = words.length; i < len; i++) {
+                const word = words[i];
+                if (numberWords[word]) {
+                    if (word === 'punto' || word === 'coma') {
+                        isDecimal = true;
+                        continue;
+                    } else if (word === 'mil') {
+                        multiplier *= 1000;
+                        continue;
+                    } else if (word === 'millón' || word === 'millones') {
+                        multiplier *= 1000000;
+                        continue;
+                    } else if (['y', 'mas', 'más'].includes(word)) {
+                        if (currentNumber > 0 || decimalPart) {
+                            let finalNumber = currentNumber;
+                            if (decimalPart) finalNumber += parseFloat('0.' + decimalPart);
+                            result.push({ value: finalNumber * multiplier, original: word });
+                            currentNumber = 0;
+                            multiplier = 1;
+                            isDecimal = false;
+                            decimalPart = '';
+                        }
+                        continue;
+                    } else {
+                        const num = numberWords[word];
+                        if (isDecimal) {
+                            decimalPart += num;
+                        } else if (num >= 100) {
+                            multiplier *= num;
+                        } else {
+                            currentNumber += num;
+                        }
+                    }
+                } else if (/^\d+$/.test(word)) {
+                    const num = parseInt(word);
+                    if (isDecimal) {
+                        decimalPart += num;
+                    } else {
+                        currentNumber += num;
+                    }
+                }
+
+                if ((i === len - 1 || !numberWords[words[i + 1]]) && (currentNumber > 0 || decimalPart)) {
+                    let finalNumber = currentNumber;
+                    if (decimalPart) finalNumber += parseFloat('0.' + decimalPart);
+                    result.push({ value: finalNumber * multiplier, original: text });
+                    currentNumber = 0;
+                    multiplier = 1;
+                    isDecimal = false;
+                    decimalPart = '';
+                }
+            }
+
+            return result;
+        }
+
+        function extractNumbersFromText(text) {
+            const normalizedText = text.toLowerCase().replace(/,/g, '.').replace(/(\d+)k/gi, '$1 mil').trim();
+            let numbers = [];
+
+            // Manejar expresiones con "+"
+            if (/^(\d+(\.\d+)?)(\+\d+(\.\d+)?)*$/.test(normalizedText)) {
+                const nums = normalizedText.split('+').map(num => {
+                    const value = parseFloat(num.trim());
+                    const multiplier = num.trim().length >= 5 ? 1 : 1000;
+                    return { value: value * multiplier, original: num.trim() };
+                });
+                if (nums.every(num => !isNaN(num.value))) return nums;
+            }
+
+            // Intentar convertir palabras numéricas
+            const wordNumbers = convertSpanishNumberWords(normalizedText);
+            if (wordNumbers.length > 0) return wordNumbers;
+
+            // Patrones para números numéricos
+            const patterns = [
+                { pattern: /(?:más\s+)?(\d+([.,]\d+)?)\s*mill[oó]n(es)?/gi, multiplier: 1000000 },
+                { pattern: /(?:más\s+)?(\d+([.,]\d+)?)\s*mil( pesos)?/gi, multiplier: 1000 },
+                { pattern: /(?:más\s+)?(\d+)/gi, multiplier: (match) => match[1].length >= 5 ? 1 : 1000 }
+            ];
+
+            patterns.forEach(({ pattern, multiplier }) => {
+                let match;
+                while ((match = pattern.exec(normalizedText)) !== null) {
+                    const value = parseFloat(match[1].replace(',', '.'));
+                    if (!isNaN(value)) {
+                        const mult = typeof multiplier === 'function' ? multiplier(match) : multiplier;
+                        numbers.push({ value: value * mult, original: match[0] });
+                    }
+                }
+            });
+
+            return numbers;
+        }
+
+        function updateUI(saveToStorage = true) {
+            totalDiv.textContent = `Total: $${total.toLocaleString('es-CO')} COP`;
+            comprobantesDiv.textContent = `Comprobantes: ${extractedNumbers.length}`;
+            if (saveToStorage) {
+                localStorage.setItem('comprobantes_historial', JSON.stringify({
+                    date: new Date().toISOString().slice(0, 10),
+                    total,
+                    comprobantes: extractedNumbers
+                }));
+            }
+        }
+
+        function showResultModal() {
+            const date = new Date().toISOString().slice(0, 10);
+            modalDate.textContent = `Fecha: ${date}`;
+            modalTotal.textContent = `Total: $${total.toLocaleString('es-CO')} COP`;
+            modalCount.textContent = `Comprobantes: ${extractedNumbers.length}`;
+            modal.style.display = 'block';
+        }
+
+        function processText() {
+            const lines = textInput.value.split('\n').filter(line => line.trim());
+            let allNums = [];
+            lines.forEach(line => allNums.push(...extractNumbersFromText(line)));
+
+            if (allNums.length > 0) {
+                extractedNumbers = allNums;
+                total = allNums.reduce((sum, n) => sum + n.value, 0);
+                updateUI();
+                errorDiv.textContent = '';
+                showResultModal();
+            } else {
+                errorDiv.textContent = 'No se encontraron números válidos. Usa formatos como "35900", "35k", "1 millón", o "35+35".';
+            }
+        }
+
+        function resetCurrent() {
+            extractedNumbers = [];
+            total = 0;
+            textInput.value = '';
+            localStorage.removeItem('comprobantes_historial');
+            updateUI();
+            errorDiv.textContent = '';
+            modal.style.display = 'none';
+        }
+
+        function addDigit(digit) {
+            textInput.value += digit;
+            textInput.dispatchEvent(new Event('input'));
+        }
+
+        function backspace() {
+            textInput.value = textInput.value.slice(0, -1);
+            textInput.dispatchEvent(new Event('input'));
+        }
+
+        const updatePreview = debounce(() => {
+            const lines = textInput.value.split('\n').filter(line => line.trim());
+            let allNums = [];
+            lines.forEach(line => allNums.push(...extractNumbersFromText(line)));
+            if (allNums.length > 0) {
+                const previewTotal = allNums.reduce((sum, n) => sum + n.value, 0);
+                totalDiv.textContent = `Total: $${previewTotal.toLocaleString('es-CO')} COP`;
+                comprobantesDiv.textContent = `Comprobantes: ${allNums.length}`;
+                errorDiv.textContent = '';
+            } else {
+                totalDiv.textContent = `Total: $${total.toLocaleString('es-CO')} COP`;
+                comprobantesDiv.textContent = `Comprobantes: ${extractedNumbers.length}`;
+                errorDiv.textContent = 'Entrada no válida. Usa números o palabras como "35900", "35k", "1 millón".';
+            }
+        }, 300);
+
+        textInput.addEventListener('input', updatePreview);
+        modalCopyBtn.addEventListener('click', async () => {
+            const text = `${modalDate.textContent}, ${modalTotal.textContent}, ${modalCount.textContent}`;
+            try {
+                await navigator.clipboard.writeText(text);
+                modalCopyBtn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                setTimeout(() => modalCopyBtn.innerHTML = 'Copiar', 2000);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                alert('Error al copiar. Selecciona y copia manualmente.');
+            }
+        });
+
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        processButton.addEventListener('click', processText);
+        resetButton.addEventListener('click', resetCurrent);
+
+        // Atajos de teclado
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.key === 'Enter') processText();
+            if (e.ctrlKey && e.key === 'r') resetCurrent();
+        });
+
+        // Soporte para PWA
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').style.display = 'block';
+        });
+
+        document.getElementById('installBtn').addEventListener('click', () => {
+            deferredPrompt.prompt();
+        });
+
+        // Script de Panel
+        function extractValues() {
+            const input = document.getElementById('inputText').value.split('\n');
+            const validItems = [];
+
+            let block = [];
+            input.forEach(line => {
+                if (line.match(/^\d+/)) {
+                    const items = line.split('\t');
+                    if (items.length >= 4 && !isNaN(parseFloat(items[3]))) {
+                        validItems.push(parseFloat(items[3]));
+                    }
+                }
+                if (line.match(/^\d+$/)) {
+                    if (block.length > 0) {
+                        const cargoLine = block.find(l => l.includes('Cargo:'));
+                        if (cargoLine) {
+                            const cargoValue = cargoLine.match(/Cargo:\s*(\d+\.\d+)/);
+                            if (cargoValue && !isNaN(parseFloat(cargoValue[1]))) {
+                                validItems.push(parseFloat(cargoValue[1]));
+                            }
+                        }
+                        block = [];
+                    }
+                }
+                block.push(line);
+            });
+
+            if (block.length > 0) {
+                const cargoLine = block.find(l => l.includes('Cargo:'));
+                if (cargoLine) {
+                    const cargoValue = cargoLine.match(/Cargo:\s*(\d+\.\d+)/);
+                    if (cargoValue && !isNaN(parseFloat(cargoValue[1]))) {
+                        validItems.push(parseFloat(cargoValue[1]));
+                    }
+                }
+            }
+
+            document.getElementById('output').textContent = validItems.join(' ');
+            document.getElementById('count').textContent = validItems.length;
+            document.getElementById('sum').textContent = validItems.reduce((sum, val) => sum + val, 0).toFixed(4);
+        }
+
+        function clearInputExtract() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('output').textContent = '';
+            document.getElementById('count').textContent = '0';
+            document.getElementById('sum').textContent = '0';
+        }
+
+        // Script de Calculadora PayPal
+        const copAmountInput = document.getElementById('cop-amount');
+        const exchangeRateInput = document.getElementById('exchange-rate');
+        const feePercentInput = document.getElementById('fee-percent');
+        const feeFixedInput = document.getElementById('fee-fixed');
+        const calculateBtn = document.getElementById('calculate-btn');
+
+        function parseNumber(value) {
+            if (!value) return 0;
+            const cleanedValue = value.toString().replace(/[^0-9,.]/g, '').replace(/\.(?=\d{3})/g, '').replace(',', '.');
+            return parseFloat(cleanedValue) || 0;
+        }
+
+        function formatNumber(number) {
+            return number.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function calculatePaypal() {
+            const copAmount = parseNumber(copAmountInput.value);
+            const exchangeRate = parseNumber(exchangeRateInput.value);
+            const feePercent = parseNumber(feePercentInput.value) / 100 || 0.054;
+            const feeFixed = parseNumber(feeFixedInput.value) || 0.30;
+
+            if (copAmount <= 0 || exchangeRate <= 0 || feePercent < 0 || feeFixed < 0) {
+                document.getElementById('advertencia-paypal').style.display = 'block';
+                document.getElementById('resultado-paypal').style.display = 'none';
+                document.getElementById('advertencia-paypal').innerText = 'Por favor, ingresa valores válidos (montos positivos).';
                 return;
             }
 
+            const netUsd = copAmount / exchangeRate;
+            const grossUsd = (netUsd + feeFixed) / (1 - feePercent);
+            const roundedGrossUsd = Math.ceil(grossUsd * 100) / 100;
+            const montoFormateado = formatNumber(roundedGrossUsd);
+
+            document.getElementById('monto-paypal').innerText = montoFormateado;
+            document.getElementById('monto-valor-paypal').innerText = montoFormateado;
+            document.getElementById('resultado-paypal').style.display = 'block';
+            document.getElementById('advertencia-paypal').style.display = 'none';
+        }
+
+        async function copiarTextoPaypal() {
+            const monto = document.getElementById('monto-valor-paypal').innerText;
+            const textoCompleto = `💬 Listo! 👋
+Este es el valor total que debes enviar (ya incluye la comisión de PayPal):
+💰 USD $$  {monto}
+
+Por favor realiza el envío a este correo de PayPal 👇
+📧 jeisonandrez96@gmail.com
+
+Una vez completes el pago, envíanos el comprobante para confirmar ✅
+¡Gracias por tu confianza! 💙`;
+
+            try {
+                await navigator.clipboard.writeText(textoCompleto);
+                const btn = document.getElementById('copiar-paypal');
+                btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copiar Mensaje', 2000);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                alert('¡Selecciona el texto y copia manualmente!');
+            }
+        }
+
+        [copAmountInput, exchangeRateInput, feePercentInput, feeFixedInput].forEach(input => {
+            input.addEventListener('input', calculatePaypal);
+        });
+        calculateBtn.addEventListener('click', calculatePaypal);
+        document.getElementById('copiar-paypal').addEventListener('click', copiarTextoPaypal);
+
+        // Script de Calculadora Wompi
+        function calcularWompi() {
+            const v = parseFloat(document.getElementById('valor-recibir').value);
+            const comision = parseFloat(document.getElementById('comision').value);
+            const iva = parseFloat(document.getElementById('iva').value);
+
+            if (isNaN(v) || isNaN(comision) || isNaN(iva) || v <= 0 || comision < 0 || iva < 0) {
+                document.getElementById('advertencia-wompi').style.display = 'block';
+                document.getElementById('resultado-wompi').style.display = 'none';
+                return;
+            }
+
+            const c = comision / 100;
+            const i = iva / 100;
+            const valorEnviar = v / (1 - c) * (1 + i * c);
+            const redondeado = Math.ceil(valorEnviar / 1000) * 1000;
+            const montoFormateado = redondeado.toLocaleString('es-CO');
+
+            document.getElementById('monto-wompi').innerText = montoFormateado;
+            document.getElementById('monto-valor-wompi').innerText = montoFormateado;
+            document.getElementById('resultado-wompi').style.display = 'block';
+            document.getElementById('advertencia-wompi').style.display = 'none';
+        }
+
+        async function copiarTextoWompi() {
+            const monto = document.getElementById('monto-valor-wompi').innerText;
+            const textoCompleto = `💬 Listo! 👋
+Este es el valor total que debes dijitar y enviar. (ya incluye la comisión de Wompi):
+💰   $${monto} COP
+
+Puedes hacer el pago fácilmente aquí 👇
+🔗 https://checkout.wompi.co/l/VPOS_OMH30w
+
+Una vez completes el pago, envíanos el comprobante para confirmar ✅
+Gracias por tu confianza 💙`;
+
+            try {
+                await navigator.clipboard.writeText(textoCompleto);
+                const btn = document.getElementById('copiar-wompi');
+                btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copiar Mensaje WhatsApp', 2000);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                alert('¡Selecciona el texto y copia manualmente!');
+            }
+        }
+
+        document.getElementById('copiar-wompi').addEventListener('click', copiarTextoWompi);
+
+        // Script de Estado de Servicios
+        function parseServiceInput(text) {
+            text = text.trim();
+            let orderId = null, link = null, quantity = null, platform = 'Instagram', service = '', username = null;
+
+            // Parse multi-line format
+            const lines = text.split('\n').map(line => line.trim());
+            lines.forEach(line => {
+                if (line.includes("ID:")) orderId = line.replace(/.*ID:\s*/i, '').trim();
+                if (line.includes("Servicio:")) {
+                    service = line.replace(/.*Servicio:\s*/i, '').trim();
+                    platform = service.match(/TikTok/i) ? 'TikTok' : 'Instagram';
+                }
+                if (line.includes("Enlace:")) link = line.replace(/.*Enlace:\s*/i, '').trim();
+                if (line.includes("Cantidad:")) quantity = parseInt(line.replace(/.*Cantidad:\s*/i, '').trim());
+                // Search for URL in any line
+                const urlMatch = line.match(/https:\/\/(www\.)?(instagram|tiktok)\.com\/(@?)[^?]+(?:\?[\w=&-]*)?/i);
+                if (urlMatch) {
+                    link = urlMatch[0].split('?')[0];
+                    platform = urlMatch[2].toLowerCase() === 'tiktok' ? 'TikTok' : 'Instagram';
+                    const usernameMatch = urlMatch[3].match(/^(@?)([^/]+)/);
+                    username = usernameMatch ? `@${usernameMatch[2]}` : null;
+                }
+            });
+
+            // Clean link by removing parameters if present
+            if (link) link = link.split('?')[0];
+
+            // Parse standalone URL or ID if not already found
+            if (!link) {
+                const urlMatch = text.match(/https:\/\/(www\.)?(instagram|tiktok)\.com\/(@?)[^?]+(?:\?[\w=&-]*)?/i);
+                if (urlMatch) {
+                    link = urlMatch[0].split('?')[0];
+                    platform = urlMatch[2].toLowerCase() === 'tiktok' ? 'TikTok' : 'Instagram';
+                    const usernameMatch = urlMatch[3].match(/^(@?)([^/]+)/);
+                    username = usernameMatch ? `@${usernameMatch[2]}` : null;
+                }
+            }
+
+            if (!orderId) {
+                const idMatch = text.match(/ID:\s*(\d+)/i);
+                if (idMatch) orderId = idMatch[1];
+            }
+
+            if (!quantity) {
+                const quantityMatch = text.match(/Cantidad:\s*(\d+)/i);
+                if (quantityMatch) quantity = parseInt(quantityMatch[1]);
+            }
+
+            // Validate input
+            if (!orderId && !link && !quantity) {
+                return { error: 'Por favor, proporciona un ID numérico, un enlace válido de Instagram o TikTok (ej. https://(www.)instagram.com/username o https://(www.)tiktok.com/@username), o el texto completo con ID, enlace y cantidad. Ejemplo para TikTok: "ID: 1162129\nEnlace: https://www.tiktok.com/@jamros16\nCantidad: 1000".' };
+            }
+
+            return { orderId, link, quantity, platform, username, service };
+        }
+
+        function addDigitServices(digit) {
+            const input = document.getElementById('current_followers');
+            input.value = (input.value || '') + digit;
+        }
+
+        function backspaceServices() {
+            const input = document.getElementById('current_followers');
+            input.value = input.value.slice(0, -1);
+            if (input.value < 0) input.value = '';
+        }
+
+        function clearInputField() {
+            document.getElementById('current_followers').value = '';
+        }
+
+        async function pasteText() {
+            const input = document.getElementById('input');
+            input.value = await navigator.clipboard.readText();
+            const resultDiv = document.getElementById('services-result');
+            const parsedInput = parseServiceInput(input.value);
+
+            if (parsedInput.error) {
+                resultDiv.innerText = parsedInput.error;
+                return;
+            }
+
+            const { orderId, link, quantity, platform, username } = parsedInput;
+
+            if (link) {
+                window.open(link, '_blank');
+            }
+
             resultDiv.classList.add('loading');
-            resultDiv.innerHTML = '<p>Procesando pedido...</p>';
+            resultDiv.innerText = 'Buscando...';
 
             try {
                 const response = await fetch('/api/followers', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: input, current_followers: current_followers ? parseInt(current_followers) : null })
+                    body: JSON.stringify({ text: input.value, orderId, link, quantity, platform })
                 });
                 const data = await response.json();
                 resultDiv.classList.remove('loading');
 
                 if (data.error) {
-                    resultDiv.innerHTML = `<p style="color:#e74c3c">Error: ${data.error}</p>`;
+                    resultDiv.innerText = `Error: ${data.error}`;
                     return;
                 }
 
-                let html = '<ul style="text-align:left">';
-                html += data.username ? `<li>Usuario: ${data.username}</li>` : '';
-                html += data.order_id ? `<li>Pedido: #${data.order_id}</li>` : '';
-                html += `<li>Inicio: ${data.start_count?.toLocaleString() || 0}</li>`;
-                html += `<li>Cantidad: ${data.charge?.toLocaleString() || 0}</li>`;
-                html += `<li>Total esperado: ${data.previous_followers?.toLocaleString() || 0}</li>`;
-                html += `<li>Estado: ${data.status || 'Pendiente'}</li>`;
-
-                if (data.followers_difference !== null) {
-                    const diff = data.followers_difference;
-                    const clase = diff >= 0 ? 'positive' : 'negative';
-                    html += `<li><span class="${clase}"><strong>${diff >= 0 ? 'Subieron' : 'Bajaron'}: ${Math.abs(diff).toLocaleString()}</strong></span></li>`;
+                let resultHtml = '<ul>';
+                resultHtml += data.username ? `<li>👤 ${platform} Usuario: @${data.username}</li>` : `<li>👤 ${platform} Usuario: No disponible</li>`;
+                if (data.order_id) {
+                    resultHtml += `<li>🆔 Pedido: #${data.order_id}</li>` +
+                                  `<li>📈 Inicio: ${data.start_count.toLocaleString('es-ES')}</li>` +
+                                  (data.charge != null ? `<li>🛒 Cantidad comprada: ${data.charge.toLocaleString('es-ES')}</li>` : '') +
+                                  `<li>📈 Total: ${data.previous_followers.toLocaleString('es-ES')}</li>` +
+                                  `<li>📋 Estado de servicio: ${data.status}</li>`;
                 }
-                html += `<li>Consulta: ${new Date(data.queried_at).toLocaleString('es-CO')}</li></ul>`;
-                resultDiv.innerHTML = html;
-            } catch (e) {
+                if (data.followers_difference !== null) {
+                    const diffClass = data.followers_difference >= 0 ? 'positive' : 'negative';
+                    resultHtml += `<li><span class="difference ${diffClass}">${data.followers_difference >= 0 ? '📈 Subieron' : '📉 Bajaron'}: ${Math.abs(data.followers_difference).toLocaleString('es-ES')}</span></li>`;
+                }
+                resultHtml += `<li>🕒 Consulta: ${new Date(data.queried_at).toLocaleString('es-ES', { timeZone: 'America/Bogota' })}</li></ul>`;
+                resultDiv.innerHTML = resultHtml;
+            } catch (error) {
                 resultDiv.classList.remove('loading');
-                resultDiv.innerHTML = '<p style="color:#e74c3c">Error de conexión</p>';
+                resultDiv.innerText = `Error al conectar con el servidor: ${error.message}. Verifica tu conexión o intenta nuevamente.`;
+            }
+        }
+
+        async function goText() {
+            const input = document.getElementById('input');
+            const resultDiv = document.getElementById('services-result');
+            const parsedInput = parseServiceInput(input.value);
+
+            if (parsedInput.error) {
+                resultDiv.innerText = parsedInput.error;
+                return;
+            }
+
+            const { orderId, link, quantity, platform, username } = parsedInput;
+
+            if (link) {
+                window.open(link, '_blank');
+            }
+
+            resultDiv.classList.add('loading');
+            resultDiv.innerText = 'Buscando...';
+
+            try {
+                const response = await fetch('/api/followers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: input.value, orderId, link, quantity, platform })
+                });
+                const data = await response.json();
+                resultDiv.classList.remove('loading');
+
+                if (data.error) {
+                    resultDiv.innerText = `Error: ${data.error}`;
+                    return;
+                }
+
+                let resultHtml = '<ul>';
+                resultHtml += data.username ? `<li>👤 ${platform} Usuario: @${data.username}</li>` : `<li>👤 ${platform} Usuario: No disponible</li>`;
+                if (data.order_id) {
+                    resultHtml += `<li>🆔 Pedido: #${data.order_id}</li>` +
+                                  `<li>📈 Inicio: ${data.start_count.toLocaleString('es-ES')}</li>` +
+                                  (data.charge != null ? `<li>🛒 Cantidad comprada: ${data.charge.toLocaleString('es-ES')}</li>` : '') +
+                                  `<li>📈 Total: ${data.previous_followers.toLocaleString('es-ES')}</li>` +
+                                  `<li>📋 Estado de servicio: ${data.status}</li>`;
+                }
+                if (data.followers_difference !== null) {
+                    const diffClass = data.followers_difference >= 0 ? 'positive' : 'negative';
+                    resultHtml += `<li><span class="difference ${diffClass}">${data.followers_difference >= 0 ? '📈 Subieron' : '📉 Bajaron'}: ${Math.abs(data.followers_difference).toLocaleString('es-ES')}</span></li>`;
+                }
+                resultHtml += `<li>🕒 Consulta: ${new Date(data.queried_at).toLocaleString('es-ES', { timeZone: 'America/Bogota' })}</li></ul>`;
+                resultDiv.innerHTML = resultHtml;
+            } catch (error) {
+                resultDiv.classList.remove('loading');
+                resultDiv.innerText = `Error al conectar con el servidor: ${error.message}. Verifica tu conexión o intenta nuevamente.`;
+            }
+        }
+
+        async function processFollowers() {
+            const input = document.getElementById('input').value;
+            const current_followers = document.getElementById('current_followers').value;
+            const resultDiv = document.getElementById('services-result');
+            const parsedInput = parseServiceInput(input);
+
+            if (parsedInput.error) {
+                resultDiv.innerText = parsedInput.error;
+                return;
+            }
+
+            const { orderId, link, quantity, platform, username } = parsedInput;
+
+            resultDiv.classList.add('loading');
+            resultDiv.innerText = 'Calculando diferencia...';
+
+            try {
+                const response = await fetch('/api/followers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: input, current_followers, orderId, link, quantity, platform })
+                });
+                const data = await response.json();
+                resultDiv.classList.remove('loading');
+
+                if (data.error) {
+                    resultDiv.innerText = `Error: ${data.error}`;
+                    return;
+                }
+
+                let resultHtml = '<ul>';
+                resultHtml += data.username ? `<li>👤 ${platform} Usuario: @${data.username}</li>` : `<li>👤 ${platform} Usuario: No disponible</li>`;
+                if (data.order_id) {
+                    resultHtml += `<li>🆔 Pedido: #${data.order_id}</li>` +
+                                  `<li>📈 Inicio: ${data.start_count.toLocaleString('es-ES')}</li>` +
+                                  (data.charge != null ? `<li>🛒 Cantidad comprada: ${data.charge.toLocaleString('es-ES')}</li>` : '') +
+                                  `<li>📈 Total: ${data.previous_followers.toLocaleString('es-ES')}</li>` +
+                                  `<li>📋 Estado de servicio: ${data.status}</li>`;
+                }
+                if (data.followers_difference !== null) {
+                    const diffClass = data.followers_difference >= 0 ? 'positive' : 'negative';
+                    resultHtml += `<li><span class="difference ${diffClass}">${data.followers_difference >= 0 ? '📈 Subieron' : '📉 Bajaron'}: ${Math.abs(data.followers_difference).toLocaleString('es-ES')}</span></li>`;
+                }
+                resultHtml += `<li>🕒 Consulta: ${new Date(data.queried_at).toLocaleString('es-ES', { timeZone: 'America/Bogota' })}</li></ul>`;
+                resultDiv.innerHTML = resultHtml;
+            } catch (error) {
+                resultDiv.classList.remove('loading');
+                resultDiv.innerText = `Error al conectar con el servidor: ${error.message}. Verifica tu conexión o intenta nuevamente.`;
             }
         }
 
         function clearInput() {
             document.getElementById('input').value = '';
             document.getElementById('current_followers').value = '';
-            document.getElementById('services-result').innerHTML = '';
+            document.getElementById('services-result').innerText = '';
+            document.getElementById('services-result').classList.remove('loading');
         }
 
-        // === COMPROBANTES - TU FORMATO EXACTO ===
-        function procesarComprobantes() {
-            const texto = document.getElementById('comprobantesText').value.trim();
-            if (!texto) {
-                alert('Pega los comprobantes del día');
-                return;
-            }
-
-            const lineas = texto.split('\n').filter(l => l.trim());
-            let total = 0;
-            const valores = [];
-
-            lineas.forEach(linea => {
-                const numeros = linea.match(/[\d\.]+/g);
-                if (numeros) {
-                    numeros.forEach(n => {
-                        const valor = parseInt(n.replace(/\./g, ''));
-                        if (valor >= 1000) {
-                            total += valor;
-                            valores.push(valor);
-                        }
-                    });
+        async function copyResult() {
+            const result = document.getElementById('services-result').innerText;
+            if (result && result !== 'Buscando...' && result !== 'Calculando diferencia...') {
+                try {
+                    await navigator.clipboard.writeText(result);
+                } catch (err) {
+                    console.error('Error al copiar:', err);
+                    alert('¡Selecciona el texto y copia manualmente!');
                 }
-            });
-
-            // Fecha bonita
-            const fecha = new Date();
-            const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            const diaSemana = dias[fecha.getDay()];
-            const dia = fecha.getDate();
-            const mes = meses[fecha.getMonth()];
-            const año = fecha.getFullYear();
-            const fechaBonita = `${diaSemana} ${dia} de ${mes} ${año}`;
-
-            const totalFormateado = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-            // VENTANA EMERGENTE EXACTAMENTE COMO TÚ QUIERES
-            alert(`Resultados\n**${fechaBonita}**\nTotal: ${totalFormateado}\nComprobantes: ${valores.length}`);
-
-            // TAMBIÉN EN PANTALLA
-            document.getElementById('resultadoComprobantes').innerHTML = `
-                <h3 style="color:#1e3a8a">Resultados</h3>
-                <h2 style="color:#11998e"><strong>${fechaBonita}</strong></h2>
-                <p><strong>Total:</strong> ${totalFormateado}</p>
-                <p><strong>Comprobantes:</strong> ${valores.length}</p>
-            `;
+            }
         }
+
+        document.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const activeTab = document.querySelector('.tab-button.active').dataset.tab;
+                const actions = {
+                    paypal: calculatePaypal,
+                    wompi: calcularWompi,
+                    services: processFollowers,
+                    comprobantes: processText
+                };
+                if (actions[activeTab]) actions[activeTab]();
+            }
+        });
     </script>
 </body>
 </html>

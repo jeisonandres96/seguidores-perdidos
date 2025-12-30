@@ -7,12 +7,12 @@ app.use(express.static('public'));
 // === TUS DOS PANELES ===
 const PANEL_MAZ = {
     url: 'https://mazsocialmarket.com/api/v2',
-    key: '263c3041af21a8dc1249ba001235c504'
+    key: 'a3ad67a338d76ce1942e294e0d7e84d5'
 };
 
 const PANEL_MF = {
     url: 'https://marketfollowers.com/api/v2',
-    key: 'a3ad67a338d76ce1942e294e0d7e84d5'  // TU CLAVE REAL
+    key: '1ecfe63ac560f68b88daa82e867a02b3'  // TU CLAVE REAL
 };
 
 app.post('/api/followers', async (req, res) => {
@@ -97,4 +97,5 @@ app.post('/api/followers', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Panel activo - Soporte Maz + MarketFollowers`));
+
 
